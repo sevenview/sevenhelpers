@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sevenhelpers (1.1.0)
+    sevenhelpers (1.2.0)
       rails (~> 3.2.11)
 
 GEM
