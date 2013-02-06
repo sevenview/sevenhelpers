@@ -11,24 +11,32 @@ module Sevenhelpers
       output
     end
 
-    def google_analytics_code(tracking_id)
-      output = <<EOF
-<-- Google Analytics -->
-<script type="text/javascript">
+    def google_analytics_code(tracking_id, options = {})
+      options.reverse_merge! show_placeholder: true, environments: %w(production)
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', '#{tracking_id}']);
-  _gaq.push(['_trackPageview']);
+      if options[:environments].include? Rails.env
+        output = <<-EOD
+          <-- Google Analytics -->
+          <script type="text/javascript">
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', '#{tracking_id}']);
+            _gaq.push(['_trackPageview']);
 
-</script>
-<-- end Google Analytics -->
-EOF
+            (function() {
+              var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+              ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+
+          </script>
+          <-- end Google Analytics -->
+          EOD
+      elsif options[:show_placeholder]
+        output = "<!-- actual Google Analytics code will render here in #{ options[:environments].map(&:capitalize).to_sentence } -->"
+      else
+        output = ''
+      end
       raw(output)
     end
   end
