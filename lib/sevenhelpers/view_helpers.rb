@@ -16,7 +16,7 @@ module Sevenhelpers
 
       if options[:environments].include? Rails.env
         output = <<-EOD
-          <-- Google Analytics -->
+          <!-- Google Analytics -->
           <script type="text/javascript">
 
             var _gaq = _gaq || [];
@@ -30,7 +30,7 @@ module Sevenhelpers
             })();
 
           </script>
-          <-- end Google Analytics -->
+          <!-- end Google Analytics -->
           EOD
       elsif options[:show_placeholder]
         output = "<!-- actual Google Analytics code will render here in #{ options[:environments].map(&:capitalize).to_sentence } -->"
