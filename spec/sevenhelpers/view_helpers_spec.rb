@@ -46,4 +46,8 @@ describe Sevenhelpers::ViewHelpers do
       helper.google_analytics_code(tracking_id, show_placeholder: false).should == ''
     end
   end
+
+  describe "#error_messages_for" do
+    pending
+  end
 end

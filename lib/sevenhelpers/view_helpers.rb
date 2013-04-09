@@ -39,5 +39,21 @@ module Sevenhelpers
       end
       raw(output)
     end
+
+    def error_messages_for(obj)
+      content = ""
+      if obj.errors.any?
+        content << '<div class="error-messages">'
+        content << "<h2>#{pluralize(obj.errors.count, "error")} prohibited this form from being saved:</h2>"
+        content << "<ul>"
+        obj.errors.full_messages.each do |msg|
+          content << "<li>#{msg}</li>"
+        end
+        content << "</ul>"
+        content << "</div>"
+      end
+      raw(content) if content
+    end
+
   end
 end
