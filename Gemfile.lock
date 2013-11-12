@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     sevenhelpers (1.2.0)
-      rails (~> 4.0.0)
+      rails (>= 3.2.13)
 
 GEM
   remote: https://rubygems.org/
