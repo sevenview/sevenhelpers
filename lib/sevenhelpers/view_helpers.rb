@@ -15,7 +15,7 @@ module Sevenhelpers
       options.reverse_merge!(show_placeholder: true, environments: %w(production), universal: false)
 
       if options[:environments].include? Rails.env
-        output = '<!-- Google Analytics -->\n'
+        output = "<!-- Google Analytics -->\n"
         output << if options[:universal]
           google_analytics_universal(tracking_id, options[:domain])
         else
