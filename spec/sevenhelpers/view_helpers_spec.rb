@@ -24,25 +24,31 @@ describe Sevenhelpers::ViewHelpers do
 
   describe "#google_analytics_code" do
     let(:tracking_id) { 'UA-111111-1' }
+    let(:domain) { 'foo.com' }
 
-    it "displays the google tracking code with the tracking id embedded" do
-      Rails.stub!(:env).and_return('production')
+    it "displays the Google classic tracking code with the tracking id embedded" do
+      Rails.stub(:env).and_return('production')
       helper.google_analytics_code(tracking_id).should match /'_setAccount', '#{tracking_id}'/
     end
 
+    it "displays the Google universal tracking code with the tracking id and domain embedded" do
+      Rails.stub(:env).and_return('production')
+      helper.google_analytics_code(tracking_id, universal: true, domain: domain).should match /'create', '#{tracking_id}', '#{domain}'/
+    end
+
     it "only displays in the production environment by default" do
-      Rails.stub!(:env).and_return('development')
+      Rails.stub(:env).and_return('development')
       helper.google_analytics_code(tracking_id).should match /<!-- actual Google Analytics code will render here in Production -->/
     end
 
     it "only shows in the environment(s) specified" do
-      Rails.stub!(:env).and_return('development')
+      Rails.stub(:env).and_return('development')
       helper.google_analytics_code(tracking_id, environments: %w(development test)).should match /'_setAccount', '#{tracking_id}'/
       helper.google_analytics_code(tracking_id, environments: %w(staging production)).should match /<!-- actual Google Analytics code will render here in Staging and Production -->/
     end
 
     it "displays a placeholder comment if in an environment that should not ping GA" do
-      Rails.stub!(:env).and_return('development')
+      Rails.stub(:env).and_return('development')
       helper.google_analytics_code(tracking_id, show_placeholder: false).should == ''
     end
   end
